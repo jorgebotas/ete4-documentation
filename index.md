@@ -195,7 +195,7 @@ a pair of TextFace faces can be created and added to the columns 0 and 1 of the 
 from ete4 import Tree
 from ete4.smartview import TreeStyle, TextFace
 
-t = Tree( "((a:1,b:1),c:1)1:.5;" )
+t = Tree( "((A:1,B:1),C:1)1:.5;" )
 
 # Basic tree style
 ts = TreeStyle()
@@ -203,16 +203,16 @@ ts.show_support = False
 
 # Add two text faces to different columns
 def layout_fn(node):
-    node.add_face(TextFace("hello", padding_x=15), 
-            column=0, position="branch-bottom")
-    node.add_face(TextFace("world!"), 
-            column=1, position="branch-bottom")
+    if node.name == "A":
+        node.add_face(TextFace("hello", padding_x=15), 
+                column=0, position="branch-bottom")
+        node.add_face(TextFace("world!"), 
+                column=1, position="branch-bottom")
 
 layout_fn.__name__ = "Hello world"
 ts.layout_fn = layout_fn
 
 t.explore(tree_name="example", tree_style=ts)
-```
 
 ![hello world](https://github.com/jorgebotas/ete4-documentation/blob/master/helloworld.png)
 
