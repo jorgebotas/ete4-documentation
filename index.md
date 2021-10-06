@@ -175,8 +175,8 @@ For instance, text labels or external images could be linked to nodes and they w
 Several types of node faces are provided by the main `ete4` module, 
 ranging from simple text (`TextFace`) and geometric shapes (`CircleFace`), 
 to molecular sequence representations (`SequenceFace`), 
-heatmaps and profile plots (`ProfileFace`[^ProfileFace]). 
-A complete list of available faces can be found at the ete4.smartview reference page.
+heatmaps and profile plots (`ProfileFace` [^ProfileFace]). 
+A complete list of available faces can be found at the `ete4.smartview` reference page.
 
 [^ProfileFace]: coming soon to ETE v4.
 
