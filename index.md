@@ -409,7 +409,7 @@ Three tabs comprise the control panel:
 1. Tree view: general information about the visualization. Here we can see the name of the displayed tree (value passed to `TreeNode.explore()`),
    and if we click on it, a list of all the trees stored in the local database, from which to choose, will be prompted. 
    In this section we can also sort the tree, upload a new one (welcome page), download (newick or image) 
-   or obtain and modify information related to be visualization.
+   or obtain and modify information related to the visualization.
     
     ![cp_view](https://github.com/jorgebotas/ete4-documentation/blob/master/cp_view.png)
 
