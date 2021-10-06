@@ -396,9 +396,10 @@ Actions can be performed on a particular node: right-click on it and a menu with
 
 Faces in aligned position (see *Face position*) are displayed in a so-called aligned panel which 
 can be dragged along the horizontal axis. 
-%%Let us see an example where we can visualize 
-%%a Multiple Sequence Alignment in this panel.
+Let us see an example where we can visualize 
+a Multiple Sequence Alignment in this panel.
 
+[ img and source code ]
 
 
 ### The control panel
