@@ -322,7 +322,7 @@ def layout_fn_getter():
     # Provide the layout function a descriptive and unique name
     layout_fn.__name___ = "My first layout function"
     
-    # If the layout function adds faces in aligned position, declare so
+    # If the layout function adds faces in aligned position, declare so:
     layout_fn.contains_aligned_face = True or False
     
     # Return the layout function
@@ -333,7 +333,7 @@ def layout_fn_getter():
 
 # the TreeStyle => layout function will be automatically applied
 ts = TreeStyle()
-ts.layout_fn = layout_fn_getter()
+ts.layout_fn = [ layout_fn_getter() ]
 
 # the "layout function stack" => layout function will NOT be automatically applied
 layouts = [ layout_fn_getter() ]
