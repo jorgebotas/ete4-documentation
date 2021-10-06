@@ -246,7 +246,6 @@ for i, leaf in enumerate(t):
     leaf.add_prop("color", colors[i])
 
 
-# Add two text faces to different columns
 def layout_fn(node):
     if not node.up: # do not style root node
         return
