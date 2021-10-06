@@ -60,7 +60,8 @@ layouts |  list of layout functions that will be available from the GUI. May be 
 port | port used to run the local server (127.0.0.1). Default 5000
 
 
-The GUI allows many operations to be performed graphically, however it does not implement all the possibilities of the programming toolkit.
+> The GUI allows many operations to be performed graphically, however it does not implement all the 
+> possibilities of the programming toolkit.
 
 
 #### Rendering trees as images
