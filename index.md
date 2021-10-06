@@ -46,8 +46,8 @@ Thus, ETE provides means to visualize trees using an interactive interface that 
 To start the visualization of a node (tree or subtree), you can simply call the `TreeNode.explore()` method. After calling this method, the interactive interface
 will be available locally at http://127.0.0.1:5000/ (port 5000 by default) on any desired browser (Google Chrome, Mozilla Firefox...).
 
->**NOTE**:
-> the GUI allows many operations to be performed graphically, however it does not implement all the 
+>**NOTE**.
+> The GUI allows many operations to be performed graphically, however it does not implement all the 
 > possibilities of the programming toolkit.
 
 All the trees explored in a certain computer would be stored in a **local database**. This feature allows us to seemingly navigate different trees, dynamically change their style, 
@@ -88,8 +88,8 @@ For instance, `TreeStyle` allows to modify the scale used to render tree branche
 [ we may have to change this... ]
 
 
->**NOTE**:
->a number of parameters can be controlled through custom tree style objects, check `TreeStyle` documentation for a complete list of accepted values.
+>**NOTE**.
+>A number of parameters can be controlled through custom tree style objects, check `TreeStyle` documentation for a complete list of accepted values.
 
 
 Some common uses include:
@@ -176,8 +176,8 @@ to molecular sequence representations (SequenceFace),
 heatmaps and profile plots (ProfileFace). 
 A complete list of available faces can be found at the ete4.smartview reference page.
 
->**NOTE**:
-> we are still working on migrating ETE v3 Faces to ETE v4's drawing engine
+>**NOTE**.
+> We are still working on migrating ETE v3 Faces to ETE v4's drawing engine
 
 
 #### Face position
@@ -221,8 +221,8 @@ See the following image as an example of face positions:
 [ img and source code ]
 
 
->**NOTE**:
-> once a face object is created, it can be linked to one or more nodes. For instance, the same text label can be recycled and added to several nodes.
+>**NOTE**.
+> Once a face object is created, it can be linked to one or more nodes. For instance, the same text label can be recycled and added to several nodes.
 
 
 
@@ -234,8 +234,8 @@ nodes are dynamically showed and collapsed. Therefore, different faces could be 
 on whether it is collapsed or not. 
 
 
->**NOTE**:
-> a node collapses when its children are too small to be seen. 
+>**NOTE**.
+> A node collapses when its children are too small to be seen. 
 > The collapsing threshold can be easily modified by the user while navigating the GUI.
 
 
@@ -286,14 +286,14 @@ t.explore(tree_name="example", tree_style=ts)
 
 ![nleaves](https://github.com/jorgebotas/ete4-documentation/blob/master/nleaves.png)
 
-> **NOTE**:
-> provide the layout function with an descriptive name, as this will be the name with which 
+> **NOTE**.
+> Provide the layout function with an descriptive name, as this will be the name with which 
 > this layout function is later displayed in the GUI and interactively switched on and off.
 > 
 > To do so assign an appropriate `__name__` attribute to the layout function as in the example above.
 
->**NOTE**:
-> when adding a faces to a collapsed node in "branch-right" position (`collapsed_only` flag set to True), the first available column is number `1`,
+>**NOTE**.
+> When adding a faces to a collapsed node in "branch-right" position (`collapsed_only` flag set to True), the first available column is number `1`,
 > as column `0` is occupied by the `OutlineFace`, characteristic of collapsed nodes.
 
 
