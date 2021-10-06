@@ -66,7 +66,7 @@ port | port used to run the local server (127.0.0.1). Default 5000
 
 #### Rendering trees as images
 
-While navigating the tree from the GUI, images can be generated and exported in SVG format. This can be done by pressing the key `d` or from the 
+While navigating the tree from the GUI, images can be generated and exported in SVG format. This can be done by pressing `d` or from the 
 interactive control panel (Control panel > Download > svg)
 
 
