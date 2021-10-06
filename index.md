@@ -139,7 +139,7 @@ from ete4 import Tree, NodeStyle
 from ete4.smartview import TreeStyle
 
 
-t = Tree( "((a:1,b:1),c:1)1:.5;" )
+t = Tree( "((A:1,B:1),C:1)1:.5;" )
 
 # Basic tree style
 ts = TreeStyle()
