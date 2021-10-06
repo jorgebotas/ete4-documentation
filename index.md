@@ -369,8 +369,7 @@ Here is the example tree built in the previous section:
 ![gui](https://github.com/jorgebotas/ete4-documentation/blob/master/gui.png)
 
 
-As it can be seen, three main components comprise the GUI 
-(the forth would be the aligned panel containing Faces):
+As it can be seen, three main components comprise the GUI:
 
 - The **canvas**: where our visualization is displayed.
 - The **control panel** (top right corner): from where to perform a myriad of actions ranging from 
