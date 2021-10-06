@@ -181,7 +181,7 @@ A complete list of available faces can be found at the `ete4.smartview` referenc
 [^ProfileFace]: coming soon to ETE v4.
 
 >**NOTE**.
-> We are still working on migrating ETE v3 Faces to ETE v4's drawing engine
+> We are still working on migrating ETE v3 Faces to ETE v4's drawing engine.
 
 
 #### Face position
