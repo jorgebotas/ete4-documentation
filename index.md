@@ -199,16 +199,14 @@ t = Tree( "((a:1,b:1),c:1)1:.5;" )
 
 # Basic tree style
 ts = TreeStyle()
-ts.show_leaf_name = False
 ts.show_support = False
 
 # Add two text faces to different columns
 def layout_fn(node):
-    if node.is_leaf():
-        node.add_face(TextFace("hello", padding_x=15), 
-                column=0, position="branch-right")
-        node.add_face(TextFace("world!"), 
-                column=1, position="branch-right")
+    node.add_face(TextFace("hello", padding_x=15), 
+            column=0, position="branch-bottom")
+    node.add_face(TextFace("world!"), 
+            column=1, position="branch-bottom")
 
 layout_fn.__name__ = "Hello world"
 ts.layout_fn = layout_fn
