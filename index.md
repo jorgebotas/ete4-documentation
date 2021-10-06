@@ -125,7 +125,7 @@ t.explore(tree_name="example", tree_style=ts)
 Through the `NodeStyle` class the aspect of each single node can be controlled, including its size, color, background and branch type.
 - A node style can be defined statically and attached to several nodes. There are a couple points to take into consideration:
 - If you want to draw nodes with different styles, an independent `NodeStyle` instance must be created for each node.
-- Note that node styles can be modified at any moment by accessing the `TreeNode.img_style` attribute.
+- Node styles can be modified at any moment by accessing the `TreeNode.img_style` attribute.
 - Static node styles, set through the `set_style()` method, will be attached to the nodes and exported as part of their information. 
 For instance, `TreeNode.copy()` will replicate all node styles in the replicate tree. 
 - Note that node styles can be also modified on the fly through a layout function (see layout functions)
