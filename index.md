@@ -94,6 +94,8 @@ For instance, `TreeStyle` allows to modify the scale used to render tree branche
 
 Some common uses include:
 
+[ Need more examples ]
+
 #### Show leaf names, branch length, branch support
 
 ![ts_attrs](https://github.com/jorgebotas/ete4-documentation/blob/master/ts_attrs.png)
