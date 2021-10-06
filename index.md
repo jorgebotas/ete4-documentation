@@ -42,7 +42,7 @@ The tree can be interactively visualized using a browser-based Graphical User In
 ## Interactive visualization of trees
 
 ETE's tree drawing engine is fully integrated with a browser-based GUI, run on your local machine.
-Thus, ETE provides means to visualize trees using an interactive interface that allows to explore and manipulate node‚Äôs appearance and tree topology. 
+Thus, ETE provides means to visualize trees using an interactive interface that allows to explore and manipulate node's appearance and tree topology. 
 To start the visualization of a node (tree or subtree), you can simply call the `TreeNode.explore()` method. After calling this method, the interactive interface
 will be available locally at http://127.0.0.1:5000/ (port 5000 by default) on any desired browser (Google Chrome, Mozilla Firefox...).
 
