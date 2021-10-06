@@ -149,14 +149,14 @@ def layout_fn(node):
     nstyle = NodeStyle()
     if not node.up:
         # Modify the aspect of the root node
-        nstyle["fgcolor"] = "blue"
+        nstyle["fgcolor"] = "#ffd34d" # yellow
         nstyle["size"] = 15
         node.set_style(nstyle)
     else:
         # Creates an independent node style for each node, which is
         # initialized with a red foreground color.
         nstyle = NodeStyle()
-        nstyle["fgcolor"] = "red"
+        nstyle["fgcolor"] = "#4d79ff" # blue
         nstyle["size"] = 5
         node.set_style(nstyle)
 
