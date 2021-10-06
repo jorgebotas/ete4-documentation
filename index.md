@@ -241,7 +241,7 @@ ts.show_support = False
 
 
 # Assign a color to each leaf
-colors = ["#abc4ff", "#ccd5ae", "#ff97b7"]
+colors = ["#78a0ff", "#83aa5a", "#ff7ea5"]
 for i, leaf in enumerate(t):
     leaf.add_prop("color", colors[i])
 
