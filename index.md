@@ -353,7 +353,7 @@ We should provide the layout function only to one of the previous two.
 Nonetheless, this will not raise an error as the layout function in the stack is simply overridden by the one in the TreeStyle (with the same name).
 
 
-## Smartview, Navigating the GUI
+## Smartview. Navigating the GUI
 
 ETEv4's Graphical User Interface (GUI) can be run locally and launched in any desired browser.
 To do so, launch the Smartview server:
