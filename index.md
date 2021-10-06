@@ -82,11 +82,12 @@ The `TreeStyle` class can be used to create a custom set of options that control
 Tree styles can be passed to the `TreeNode.explore()` and `TreeNode.render()` methods.
 
 There are a myriad of features that can be modified.
-For instance, `TreeStyle` allows to modify the scale used to render tree branches or choose between circular or rectangular tree drawing modes.
+For instance, `TreeStyle` allows to modify the scale used to render tree branches or choose between circular or rectangular tree drawing modes. 
+
+[ we may have to change this... ]
 
 
->**NOTE**:
->a number of parameters can be controlled through custom tree style objects, check `TreeStyle` documentation for a complete list of accepted values.
+> A number of parameters can be controlled through custom tree style objects, check `TreeStyle` documentation for a complete list of accepted values.
 
 
 Some common uses include:
