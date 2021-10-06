@@ -50,7 +50,7 @@ All the trees explored in a certain computer would be stored in a **local databa
 topology and export the visualization as an image. 
 
 
-Here are the arguments passed to the `TreeNode.explore()` method:
+When calling the `TreeNode.explore()` method, there are four arguments to consider:
 
 Argument | Description
 |--------------|:-----|
