@@ -384,7 +384,7 @@ As it can be seen, three main components comprise the GUI:
 Here is where the tree is visualized. By scrolling we can zoom in-and-out a particularly node, adapting the viewport 
 to it [^smartscroll], while dynamically showing or collapsing nodes depending on the zoom level. 
 The graph can be intuitively translated by clicking and dragging.
-Actions can be performed on a particular node: by right-clicking on it, a menu with options will be prompted.
+Actions can be performed on a particular node: right-click on it and a menu with options will be prompted:
 [^smartscroll]: The "smart scroll" feature can be switched to regular scroll from the control panel.
 
 ![contextmenu](https://github.com/jorgebotas/ete4-documentation/blob/master/contextmenu.png)
