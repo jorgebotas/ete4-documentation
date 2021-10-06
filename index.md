@@ -350,7 +350,8 @@ When providing the drawing engine with layout functions, these can be added eith
 Notice that in the previous example we have added the same layout function both to the TreeStyle and the "layout function stack"
 by means of illustration, however, this is NOT recommended. 
 We should provide each layout function only to one of the previous two. 
-Nonetheless, this will not raise an error as the layout function in the stack is simply overridden by the one in the TreeStyle (with the same name).
+Nonetheless, this will not raise an error as the layout function in the stack 
+will be simply overridden by the one in the TreeStyle (with the same name).
 
 
 ## Smartview. Navigating the GUI
