@@ -308,7 +308,7 @@ There are some points to take into consideration:
   This is key or the layout functions will override each other when sent to the front-end.
   To assign such name, use the `__name__` attribute. *E.g.* `layout_fn.__name__ = "Some descriptive and unique name"`
 - When a layout function adds a face in aligned position, we must declare so. This is particularly necessary 
-  when visualizing rectangular representations, as the aligned faces reside in a independent aligned panel which should be triggered.
+  when visualizing rectangular representations, as the aligned faces reside in an independent aligned panel which should be triggered.
   In a similar manner, the layout function accepts a `contains_aligned_face` attribute. Thus, assign this flag a truthy value after 
   declaring the function, *i.e.* `layout_fn.contains_aligned_face = True`
 
