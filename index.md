@@ -313,7 +313,7 @@ There are some points to take into consideration:
   declaring the function, *i.e.* `layout_fn.contains_aligned_face = True`
 
 Due to the necessity of these two elements, we suggest one of many ways of writing layout functions: ***layout function getters***. 
-These will allow us to encapsulate our code more cleanly and reuse it in different projects. The main structure of this getters is:
+These will allow us to encapsulate our code more cleanly and reuse it in different projects. The main structure of these getters is:
 ```
 def layout_fn_getter():
     def layout_fn(node):
