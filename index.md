@@ -421,6 +421,6 @@ Three tabs comprise the control panel:
 
     ![cp_rep](https://github.com/jorgebotas/ete4-documentation/blob/master/cp_rep.png)
 
-3. Selection: options related to manually collapsed, tagged and searched nodes. To toggle a search simply press `/`.
+3. Selection: options related to manually collapsed, tagged and searched nodes. To toggle a search simply press `/`
     
     ![cp_sel](https://github.com/jorgebotas/ete4-documentation/blob/master/cp_sel.png)
