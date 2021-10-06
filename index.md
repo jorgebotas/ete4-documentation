@@ -347,7 +347,7 @@ When providing the drawing engine with layout functions, these can be added eith
 - The "layout function stack" and therefore, the layout function will be accessible from the front-end GUI
   to be switched on and off, but it will be turned off by default.
     
-Notice that in the previous example we have added the layout function both to the TreeStyle and the "layout function stack"
+Notice that in the previous example we have added the same layout function both to the TreeStyle and the "layout function stack"
 by means of illustration, however, this is NOT recommended. 
 We should provide the layout function only to one of the previous two. 
 Nonetheless, this will not raise an error as the layout function in the stack is simply overridden by the one in the TreeStyle (with the same name).
