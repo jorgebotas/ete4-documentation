@@ -356,7 +356,7 @@ will be simply overridden by the one in the TreeStyle (with the same name).
 
 ## Smartview. Navigating the GUI
 
-ETEv4's Graphical User Interface (GUI) can be run locally and launched in any desired browser.
+ETEv4's Graphical User Interface (GUI) can be run locally and displayed in any desired browser.
 To do so, launch the Smartview server:
 - By calling the `TreeNode.explore()` method from a Python script to visualize a particular tree of interest.
 - By running `python ete4/smartview/gui/server.py` from ETE's root directory. 
