@@ -178,7 +178,7 @@ to molecular sequence representations (`SequenceFace`),
 heatmaps and profile plots (`ProfileFace`[^ProfileFace]). 
 A complete list of available faces can be found at the ete4.smartview reference page.
 
-[^ProfileFace]: coming soon in ETE v4.
+[^ProfileFace]: coming soon to ETE v4.
 
 >**NOTE**.
 > We are still working on migrating ETE v3 Faces to ETE v4's drawing engine
