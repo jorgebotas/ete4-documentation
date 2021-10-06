@@ -1,7 +1,4 @@
 
-# Installation
-
-
 # Tree Master Class
 
 There is an important update to ETE's TreeNode class: it is now written in [Cython](https://cython.org) for higher efficiency.
