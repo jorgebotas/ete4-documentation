@@ -213,6 +213,7 @@ layout_fn.__name__ = "Hello world"
 ts.layout_fn = layout_fn
 
 t.explore(tree_name="example", tree_style=ts)
+```
 
 ![hello world](https://github.com/jorgebotas/ete4-documentation/blob/master/helloworld.png)
 
