@@ -173,10 +173,12 @@ Node faces are small pieces of graphical information that can be linked to nodes
 For instance, text labels or external images could be linked to nodes and they will be plotted within the tree image.
 
 Several types of node faces are provided by the main `ete4` module, 
-ranging from simple text (`TextFace`) and geometric shapes (CircleFace), 
-to molecular sequence representations (SequenceFace), 
-heatmaps and profile plots (ProfileFace). 
+ranging from simple text (`TextFace`) and geometric shapes (`CircleFace`), 
+to molecular sequence representations (`SequenceFace`), 
+heatmaps and profile plots (`ProfileFace`[^ProfileFace]). 
 A complete list of available faces can be found at the ete4.smartview reference page.
+
+[^ProfileFace]: coming soon in ETE v4.
 
 >**NOTE**.
 > We are still working on migrating ETE v3 Faces to ETE v4's drawing engine
