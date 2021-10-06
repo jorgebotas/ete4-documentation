@@ -221,7 +221,64 @@ t.explore(tree_name="example", tree_style=ts)
 If you add more than one face to the same area and column, they will be piled up.
 See the following image as an example of face positions:
 
-[ img and source code ]
+![facespos](https://github.com/jorgebotas/ete4-documentation/blob/master/facepos.png)
+
+```
+from ete4 import Tree, NodeStyle
+from ete4.smartview.ete.layouts import TreeStyle
+from ete4.smartview.ete.faces import TextFace, AttrFace
+
+from ete4 import Tree
+
+positions = ["branch-top", "branch-bottom", "branch-right", "aligned"]
+
+t = Tree( "((A:1,B:1),C:1)1:.5;" )
+
+# Basic tree style
+ts = TreeStyle()
+ts.show_leaf_name = False
+ts.show_support = False
+
+
+# Assign a color to each leaf
+colors = ["#abc4ff", "#ccd5ae", "#ff97b7"]
+for i, leaf in enumerate(t):
+    leaf.add_prop("color", colors[i])
+
+
+# Add two text faces to different columns
+def layout_fn(node):
+    if not node.up: # do not style root node
+        return
+
+    px, py = 15, 5 # padding_x, padding_y
+    for pos in positions:
+        if pos == "aligned":
+            if node.is_leaf():
+                # Set background color to leaf
+                ns = NodeStyle()
+                ns["bgcolor"] = node.props["color"]
+                node.set_style(ns)
+                # Add 2x2 matrix
+                for col in range(2):
+                    node.add_face(TextFace(f'{pos}  row_0  col_{col}',
+                        color=node.props["color"]), 
+                        column=col, position=pos)
+                    node.add_face(TextFace(f'{pos}  row_1  col_{col}',
+                        color=node.props["color"]), 
+                        column=col, position=pos)
+        else:
+            # All but aligned position
+            text = f'{pos}  row_0  col_0'
+            node.add_face(TextFace(text, padding_x=px, padding_y=py),
+                    column=0, position=pos)
+
+layout_fn.__name__ = "Face positions"
+layout_fn.contains_aligned_face = True # declare aligned Faces
+ts.layout_fn = layout_fn
+
+t.explore(tree_name="example", tree_style=ts)
+```
 
 
 >**NOTE**.
