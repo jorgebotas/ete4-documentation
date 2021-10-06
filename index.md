@@ -130,9 +130,9 @@ Through the `NodeStyle` class the aspect of each single node can be controlled, 
   For instance, `TreeNode.copy()` will replicate all node styles in the replicate tree. 
 - Node styles can be also modified on the fly through a layout function (see layout functions)
 
-![nodestyle](https://github.com/jorgebotas/ete4-documentation/blob/master/nodestyle.png)
+Here is a simple tree in which the different styles are applied to each node:
 
-Simple tree in which the different styles are applied to each node:
+![nodestyle](https://github.com/jorgebotas/ete4-documentation/blob/master/nodestyle.png)
 
 ```
 from ete4 import Tree, NodeStyle
