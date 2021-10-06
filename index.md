@@ -5,7 +5,16 @@ There is an important update to ETE's TreeNode class: it is now written in [Cyth
 However, there is one caveat, TreeNode's no longer have features, they have properties: `TreeNode.props`.
 This `props` attribute is a dictionary containing node related properties,
 mimicking the old functionality of features, but encapsulated in a dictionary. 
-  
+Thus, there are a couple of common ETE commands that have changed:
+
+ETE v3 | ETE v4
+|:--------------|:-----|
+`TreeNode.add_feature()` |`TreeNode.add_prop()`
+`TreeNode.add_features()` |`TreeNode.add_props()`
+`TreeNode.del_feature()` |`TreeNode.del_prop()`
+`TreeNode.<feature>` |`TreeNode.props[<prop>])`
+`getattr(TreeNode, <feature>`) |`TreeNode.props.get(<prop>)`
+`TreeNode.<feature> = <feature_val>` |`TreeNode.props.add_prop(<prop_val>)`
 
 
 
