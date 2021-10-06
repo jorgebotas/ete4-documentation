@@ -188,7 +188,7 @@ A complete list of available faces can be found at the `ete4.smartview` referenc
 
 Faces can be added to different areas around the node, namely **branch-right**, **branch-top**, **branch-bottom** or **aligned**.
 Each area represents a table in which faces can be added through the `TreeNode.add_face()` method. 
-For instance, if two text labels want to be drawn bellow the branch line of a given node,
+For instance, if two text labels want to be drawn bellow the branch line of a given node (*e.g.*, node `A`),
 a pair of TextFace faces can be created and added to the columns 0 and 1 of the branch-bottom area:
 
 ```
@@ -214,7 +214,7 @@ ts.layout_fn = layout_fn
 t.explore(tree_name="example", tree_style=ts)
 ```
 
-![hello world](https://github.com/jorgebotas/ete4-documentation/blob/master/hello_world.png)
+![hello world](https://github.com/jorgebotas/ete4-documentation/blob/master/helloworld.png)
 
 
 If you add more than one face to the same area and column, they will be piled up.
