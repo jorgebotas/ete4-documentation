@@ -46,6 +46,9 @@ Thus, ETE provides means to visualize trees using an interactive interface that 
 To start the visualization of a node (tree or subtree), you can simply call the `TreeNode.explore()` method. After calling this method, the interactive interface
 will be available locally at http://127.0.0.1:5000/ (port 5000 by default) on any desired browser (Google Chrome, Mozilla Firefox...).
 
+> The GUI allows many operations to be performed graphically, however it does not implement all the 
+> possibilities of the programming toolkit.
+
 All the trees explored in a certain computer would be stored in a **local database**. This feature allows us to seemingly navigate different trees, dynamically change their style, 
 topology and export the visualization as an image. 
 
@@ -59,9 +62,6 @@ tree_style | tree style applied to the visualized tree. Defaults to TreeStyle cl
 layouts |  list of layout functions that will be available from the GUI. May be applied at user's discretion
 port | port used to run the local server (127.0.0.1). Default 5000
 
-
-> The GUI allows many operations to be performed graphically, however it does not implement all the 
-> possibilities of the programming toolkit.
 
 
 #### Rendering trees as images
