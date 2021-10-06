@@ -256,6 +256,7 @@ def layout_fn(node):
             if node.is_leaf():
                 # Set background color to leaf
                 ns = NodeStyle()
+                ns["size"] = 0 # do not show dot
                 ns["bgcolor"] = node.props["color"]
                 node.set_style(ns)
                 # Add 2x2 matrix
