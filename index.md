@@ -50,6 +50,8 @@ All the trees explored in a certain computer would be stored in a **local databa
 topology and export the visualization as an image. 
 
 
+Here are the arguments passed to the `TreeNode.explore()` method:
+
 Argument | Description
 |--------------|:-----|
 tree_name | name used to store tree in local database. Automatically generated if not provided.
