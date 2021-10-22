@@ -13,7 +13,7 @@ ETE v3 | ETE v4
 `TreeNode.add_features()` |`TreeNode.add_props()`
 `TreeNode.del_feature()` |`TreeNode.del_prop()`
 `TreeNode.<feature>` |`TreeNode.props[<prop>]`
-`getattr(TreeNode, <feature>`) |`TreeNode.props.get(<prop>)`
+`getattr(TreeNode, <feature>)` |`TreeNode.props.get(<prop>)`
 `TreeNode.<feature> = <feature_val>` |`TreeNode.add_prop()`
 
 
