@@ -487,6 +487,142 @@ Three tabs comprise the control panel:
 
     ![cp_rep](https://github.com/jorgebotas/ete4-documentation/blob/master/cp_rep.png)
 
-3. Selection: options related to manually collapsed, tagged and searched nodes. To toggle a search simply press `/`
+3. Selection: options related to manually collapsed, selected and searched nodes. To toggle a search simply press `/`
     
     ![cp_sel](https://github.com/jorgebotas/ete4-documentation/blob/master/cp_sel.png)
+
+
+## Integrating ETE v4 in your project
+
+ETE has the potential of been integrated into external projects, allowing you,
+the developer, to control how your website responds to nodes been (un)selected,
+and even coordinate additional visualizations with ETE's.
+
+
+Due to the complex nature of ETE's visualization engine, we have decided to encapsulate all its behaviour inside an 
+[iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) in the front end, while in the back end, the server runs
+independently from your project. Thus, you can communicate with ETE by means of:
+- [HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP). Used to upload your newick and start visualizing (POST) or to query for node's information given its id (GET).
+- [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage). Used to communicate the iframe and the rest of your front end. A postMessage (`message` event) will be sent to the parent window (by the iframe)
+  every time a node is selected or unselected, allowing you to update your GUI accordingly.
+  This `message` event has some data associated: 
+    - `tid` the tree id you previously provided as the identifier of your upload tree (see example bellow for more info).
+    - `node` node id (string) used to identify a node within a tree.
+    - `name` name used to describe the selected node. E.g. the node's name.
+    - `selected` a flag used to determine if the node in question has been selected (`true`) or unselected (`false`).
+
+>**NOTE**.
+> The window.postMessage() method safely enables cross-origin communication between a parent window and an iframe within it.
+
+Here, we will provide a very simple example of how to embed ETE in your website as an iframe, listen for node selection and even delete such selection from outside the iframe.
+
+### Uploading a tree and embedding ETE as an iframe
+
+The following code snippet allows you (from your website's javascript) to upload a tree to ETE through a POST method provided four pieces of information:
+- eteUrl URL where ETE is listening from (your localhost or any server you are running ETE from).
+- `name` name used to describe your tree.
+- `treeid` a numeric tree id (integer) used to identify your tree. Keep in mind that this id must be unique and could be used a security measure, e.g. a hash made from a username in combination with a date or session stamp. 
+- `newick` tree in Newick format.
+
+```
+// Define the URL in which ete is running
+const eteUrl = "http://127.0.0.1:5000";
+
+async function addTree(name, treeid, newick) {
+    
+    // Create form data
+    const data = new FormData();
+    data.append("id", treeid);
+    data.append("name", name);
+    data.append("newick", newick);
+
+    // Upload tree data through POST
+    fetch(`${eteUrl}/trees`, {
+        method: "POST",
+        headers: {"Authorization": `Bearer hello`}, // important to have headers
+        body: data,
+    });
+    
+    // Embed iframe inside a div with id "div_ete" (use different selector if needed)
+    div_ete.innerHTML = `
+    <iframe src="${eteUrl}/static/gui.html?tree=${treeid}" 
+            id="ete_iframe"
+            width=0
+            height=0
+            frameBorder=0
+            onload="this.width='100%'
+                    this.height=screen.height*0.6">
+            ${eteUrl}/static/gui.html?tree=${treeid}
+    </iframe>
+    `
+}
+```
+
+>**NOTE.**
+> Uploading a tree through POST can be done from the back end as well (specially useful for large trees), as the only piece of information that the front end needs to visualize it is the **tree id**.
+
+>**NOTE.**
+> In this example we have taken for granted that the developer has left an empty div with a descriptive id (`div_ete` in the code snippet above) in their HTML template,
+> dedicated to contain ETE's visualization.
+
+
+### Listening for node selection
+
+As we so before, embedding ETE in your project and visualizing a tree seem rather easy, right?. Well, listening for nodes been selected or unselected is no different!
+Just add a `message` event listener to your website's window:
+
+
+```
+async function onPostMessage(event) {
+    if (event.origin != eteUrl)
+        return
+
+    const { tid, node, name, selected } = event.data;
+
+    await updateNodes(tid, node, name, selected);
+
+    updateGUI();
+}
+// Listen for node (un)selection
+window.addEventListener("message", onPostMessage);
+```
+
+
+There are a couple things to notice in the code snippet above:
+- The first `if` statement restricts postMessage to be originated from ete's URL. This allows us to keep our website nicely secured.
+- The `updateNodes` and `updateGUI` functions should be written by YOU, as they will control the response of your website to nodes been selected or unselected in ETE's GUI.
+
+
+A very simple example of `updateNodes` could be:
+```
+const selectedNodes = [];
+
+async function updateNodes(treeid, node, name, selected) {
+    if (selected) {  // node has been selected
+        const treeNode = treeid + "," + node;
+        
+        // Obtain more node information through GET
+        const nodeInfoResponse = await fetch(`${eteUrl}/trees/${treeNode}/nodeinfo`);
+        const nodeInfo = await nodeInfoResponse.json();
+        
+        selectedNodes.push({ node: node, name: name, info: nodeInfo });
+
+    } else  // node has been unselected
+        selectedNodes = selectedNodes.filter(n => n.node !== node);
+}
+```
+
+
+### Removing node selection
+
+Okay, we are almost there!. Last but not least would be to unselect a node from outside the iframe and notify ETE through a postMessage.
+
+```
+ete_iframe.contentWindow.postMessage({ 
+    selected: false,
+    node: node,
+}, eteUrl);
+```
+
+This is everything you need to unselect a node!. In my opinion this is rather beautiful as we do not need to add any additional calls to update our GUI. The iframe itself
+will notify its parent window that a node has been unselected, triggering a `message` event, for which we are already listening, and automatically updating the GUI :)!
