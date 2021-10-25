@@ -492,7 +492,7 @@ Three tabs comprise the control panel:
     ![cp_sel](https://github.com/jorgebotas/ete4-documentation/blob/master/cp_sel.png)
 
 
-## Integrating ETE v4 in your project
+## Integrating ETE v4 as a external plug-in in your own project
 
 ETE has the potential of been integrated into external projects, allowing you,
 the developer, to control how your website responds to nodes been (un)selected,
@@ -506,7 +506,7 @@ independently from your project. Thus, you can communicate with ETE by means of:
 - [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage). Used to communicate the iframe and the rest of your front end. A postMessage (`message` event) will be sent to the parent window (by the iframe)
   every time a node is selected or unselected, allowing you to update your GUI accordingly.
   This `message` event has some data associated: 
-    - `tid` the tree id you previously provided as the identifier of your upload tree (see example bellow for more info).
+    - `tid` the tree id you previously provided as the identifier of your uploaded tree (see example bellow for more info).
     - `node` node id (string) used to identify a node within a tree.
     - `name` name used to describe the selected node. E.g. the node's name.
     - `selected` a flag used to determine if the node in question has been selected (`true`) or unselected (`false`).
@@ -519,20 +519,20 @@ Here, we will provide a very simple example of how to embed ETE in your website 
 ### Uploading a tree and embedding ETE as an iframe
 
 The following code snippet allows you (from your website's javascript) to upload a tree to ETE through a POST method provided four pieces of information:
-- eteUrl URL where ETE is listening from (your localhost or any server you are running ETE from).
+- `eteUrl` URL where ETE is listening from (your localhost or any server you are running ETE from).
 - `name` name used to describe your tree.
-- `treeid` a numeric tree id (integer) used to identify your tree. Keep in mind that this id must be unique and could be used a security measure, e.g. a hash made from a username in combination with a date or session stamp. 
+- `tid` a numeric tree id (integer) used to identify your tree. Keep in mind that this id must be unique and could be used a security measure, e.g. a hash made from a username in combination with a date or session stamp. 
 - `newick` tree in Newick format.
 
 ```
 // Define the URL in which ete is running
 const eteUrl = "http://127.0.0.1:5000";
 
-async function addTree(name, treeid, newick) {
+async function addTree(name, tid, newick) {
     
     // Create form data
     const data = new FormData();
-    data.append("id", treeid);
+    data.append("id", tid);
     data.append("name", name);
     data.append("newick", newick);
 
@@ -545,14 +545,14 @@ async function addTree(name, treeid, newick) {
     
     // Embed iframe inside a div with id "div_ete" (use different selector if needed)
     div_ete.innerHTML = `
-    <iframe src="${eteUrl}/static/gui.html?tree=${treeid}" 
+    <iframe src="${eteUrl}/static/gui.html?tree=${tid}" 
             id="ete_iframe"
             width=0
             height=0
             frameBorder=0
             onload="this.width='100%'
                     this.height=screen.height*0.6">
-            ${eteUrl}/static/gui.html?tree=${treeid}
+            ${eteUrl}/static/gui.html?tree=${tid}
     </iframe>
     `
 }
@@ -568,12 +568,13 @@ async function addTree(name, treeid, newick) {
 
 ### Listening for node selection
 
-As we so before, embedding ETE in your project and visualizing a tree seem rather easy, right?. Well, listening for nodes been selected or unselected is no different!
+As we saw before, embedding ETE in your project and visualizing a tree seemed rather easy, right?. Well, listening for nodes been selected or unselected is no different!.
 Just add a `message` event listener to your website's window:
 
 
 ```
 async function onPostMessage(event) {
+    // Only respond to events from ETE
     if (event.origin != eteUrl)
         return
 
@@ -589,7 +590,7 @@ window.addEventListener("message", onPostMessage);
 
 
 There are a couple things to notice in the code snippet above:
-- The first `if` statement restricts postMessage to be originated from ete's URL. This allows us to keep our website nicely secured.
+- The if statement restricts postMessages to be originated only from ETE's URL. This allows us to keep our website nicely secured.
 - The `updateNodes` and `updateGUI` functions should be written by YOU, as they will control the response of your website to nodes been selected or unselected in ETE's GUI.
 
 
@@ -597,9 +598,9 @@ A very simple example of `updateNodes` could be:
 ```
 const selectedNodes = [];
 
-async function updateNodes(treeid, node, name, selected) {
+async function updateNodes(tid, node, name, selected) {
     if (selected) {  // node has been selected
-        const treeNode = treeid + "," + node;
+        const treeNode = tid + "," + node;
         
         // Obtain more node information through GET
         const nodeInfoResponse = await fetch(`${eteUrl}/trees/${treeNode}/nodeinfo`);
@@ -620,9 +621,9 @@ Okay, we are almost there!. Last but not least would be to unselect a node from 
 ```
 ete_iframe.contentWindow.postMessage({ 
     selected: false,
-    node: node,
+    node: node,  // node id (string)
 }, eteUrl);
 ```
 
 This is everything you need to unselect a node!. In my opinion this is rather beautiful as we do not need to add any additional calls to update our GUI. The iframe itself
-will notify its parent window that a node has been unselected, triggering a `message` event, for which we are already listening, and automatically updating the GUI :)!
+will notify its parent window that a node has been unselected, triggering a `message` event, for which we are already listening, and automatically updating the GUI :) !
