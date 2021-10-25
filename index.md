@@ -1,4 +1,30 @@
 
+# Installation
+
+We are working on providing a cleaner way of installing ETE v4. However, as ete4's branch is under active development, we recommend installing the ETE's github repository and building the package "manually"
+1. Create a python 3+ environment. An easy way to do this is through [Conda](https://docs.conda.io/en/latest/).
+
+   `conda create -n ete_env && conda activate ete_env`
+2. Install dependencies:
+    - Cython: recommended installation through [mamba](https://github.com/mamba-org/mamba) or conda-forge
+        
+        `mamba install cython` or `conda install -c conda-forge cython`
+    - Python dependencies
+    
+        `pip install flask flask-cors flask-httpauth flask-restful flask-compress sqlalchemy numpy PyQt5`
+
+3. Clone ete4 branch
+
+    `git clone -b ete4 https://github.com/etetoolkit/ete ete4 `
+6. Build ete4
+
+    `cd ete4 && pip install -e .`
+
+>**NOTE.**
+> In Linux there may be some cases where the gcc library must be installed 
+> 
+> `conda install -c conda-forge gcc_linux-64`
+
 # Tree Master Class
 
 There is an important update to ETE's TreeNode class: it is now written in [Cython](https://cython.org) for higher efficiency.
