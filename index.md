@@ -55,10 +55,10 @@ custom styles can be easily created from scratch.
 
 
 Image customization is performed through four elements: 
-1. TreeStyle, setting general options about the image (shape, rotation, etc.)
+1. TreeStyle, setting general options about the image (shape, legend, etc.)
 2. NodeStyle, which defines the specific aspect of each node (size, color, background, line type, etc.)
 3. Node faces,  which are small pieces of extra graphical information that can be added to nodes (text labels, images, graphs, etc.)
-4. A layout function, a normal python function that controls how node styles and faces are dynamically applied to nodes.
+4. A layout class, a python class that controls both changes to the whole tree style as well as how node styles and faces are dynamically applied to nodes.
 
 
 The tree can be interactively visualized using a browser-based Graphical User Interface (GUI) invoked by the `TreeNode.explore()` method.
@@ -84,17 +84,21 @@ When calling the `TreeNode.explore()` method, there are four arguments to consid
 
 Argument | Description
 |--------------|:-----|
-tree_name | name used to store tree in local database. Automatically generated if not provided.
-tree_style | tree style applied to the visualized tree. Defaults to TreeStyle class
+tree_name | name used to describe the tree. Automatically generated if not provided.
 layouts |  list of layout functions that will be available from the GUI. May be applied at user's discretion
-port | port used to run the local server (127.0.0.1). Default 5000
+show_leaf_name | default `True`
+show_branch_length | default `True`
+show_branch_support | default `True`
+popup_prop_keys | list of node property keys that will be rendered on the node's popup on the browser.
+host | host used to run ETE server. Default 127.0.0.1
+port | port used to run ETE server. Default 5000
 
 
 
 #### Rendering trees as images
 
-While navigating the tree from the GUI, images can be generated and exported in SVG format. This can be done by pressing `d` or from the 
-interactive control panel (Control panel > Download > svg)
+While navigating the tree from the GUI, images can be generated and exported in HTML+SVG or PDF format. This can be done by pressing `d` or from the 
+interactive control panel (Control panel > Download > svg | Control panel > Download > pdf)
 
 
 
@@ -105,22 +109,47 @@ Image customization is performed through four main elements:
 
 ### Tree style
 
-The `TreeStyle` class can be used to create a custom set of options that control the general aspect of the tree image while rendered or displayed as an interactive visualization.
-Tree styles can be passed to the `TreeNode.explore()` and `TreeNode.render()` methods.
+The `TreeStyle` class can be used to create a custom set of options that control the general aspect of the tree image while rendered or displayed as an
+interactive visualization.
+Tree style can now ONLY be customized from layout classes. In particular, layout classes have a `set_tree_style(self, tree, tree_style)` which modifies 
+the TreeStyle class associated to the tree visualized. Thus, layouts can dynamically modify tree styles.
 
-There are a myriad of features that can be modified.
-For instance, `TreeStyle` allows to modify the scale used to render tree branches or choose between circular or rectangular tree drawing modes. 
+As of now, tree styles **cannot** be passed to the `TreeNode.explore()` method.
 
-[ we may have to change this... ]
+There are a myriad of features that can be modified:
+
+#### Legends
+
+`TreeStyle.add_legend()` allows to create legends for discrete and continous variables:
+
+```
+tree_style.add_legend(title="Discrete variable",
+       variable="discrete",
+       colormap=colormap)
+
+tree_style.add_legend(title="Continuous variable", 
+       variable="continuous",
+       value_range=(0, 1),
+       color_range=("white", "blue"))
+```
+
+#### Header and footer
+Faces can be added to the aligned panel header and footer from `TreeLayout.set_tree_style()`. The following example adds a scale and a title to the 
+aligned panel header and footer respectively.
+```
+ def set_tree_style(self, tree, tree_style):
+     super().set_tree_style(tree, tree_style)
+
+      scale = ScaleFace(width=self.width, scale_range=self.size_range, 
+              formatter='%.2f',
+              padding_x=self.padding_x, padding_y=2)
+      text = TextFace(self.name, max_fsize=11, padding_x=self.padding_x)
+      tree_style.aligned_panel_header.add_face(scale, column=self.column)
+      tree_style.aligned_panel_header.add_face(text, column=self.column)
+```
 
 
->**NOTE**.
->A number of parameters can be controlled through custom tree style objects, check `TreeStyle` documentation for a complete list of accepted values.
 
-
-Some common uses include:
-
-[ Need more examples ]
 
 #### Show leaf names, branch length, branch support
 
@@ -161,35 +190,26 @@ Here is a simple tree in which the different styles are applied to each node:
 ![nodestyle](https://github.com/jorgebotas/ete4-documentation/blob/master/nodestyle.png)
 
 ```
-from ete4 import Tree, NodeStyle
-from ete4.smartview import TreeStyle
-
+from ete4 import Tree
+from ete4.smartview import TreeLayout
 
 t = Tree( "((A:1,B:1),C:1)1:.5;" )
 
-# Basic tree style
-ts = TreeStyle()
-ts.show_leaf_name = True
+class LayoutCustom(TreeLayout):
+   def set_node_style(self, node):
+      nstyle = node.sm_style        
+      if not node.up:
+         # Modify the aspect of the root node
+         nstyle["fgcolor"] = "#ffd34d" # yellow
+         nstyle["size"] = 15
+      else:
+         # node style for descending nodes
+         nstyle["fgcolor"] = "#4d79ff" # blue
+         nstyle["size"] = 5
+    
+    
 
-def layout_fn(node):
-    nstyle = NodeStyle()
-    if not node.up:
-        # Modify the aspect of the root node
-        nstyle["fgcolor"] = "#ffd34d" # yellow
-        nstyle["size"] = 15
-        node.set_style(nstyle)
-    else:
-        # Creates an independent node style for each node, which is
-        # initialized with a red foreground color.
-        nstyle = NodeStyle()
-        nstyle["fgcolor"] = "#4d79ff" # blue
-        nstyle["size"] = 5
-        node.set_style(nstyle)
-
-layout_fn.__name__ = "Custom node style"
-ts.layout_fn = layout_fn
-
-t.explore(tree_name="example", tree_style=ts)
+t.explore(tree_name="example", layouts=[ LayoutCustom ])
 ```
 
 
