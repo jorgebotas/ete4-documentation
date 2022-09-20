@@ -84,12 +84,12 @@ When calling the `TreeNode.explore()` method, there are four arguments to consid
 
 Argument | Description
 |--------------|:-----|
-tree_name | name used to describe the tree. Automatically generated if not provided.
+tree_name | name used to describe the tree. Automatically generated if not provided
 layouts |  list of layout functions that will be available from the GUI. May be applied at user's discretion
 show_leaf_name | default `True`
 show_branch_length | default `True`
 show_branch_support | default `True`
-popup_prop_keys | list of node property keys that will be rendered on the node's popup on the browser.
+popup_prop_keys | list of node property keys that will be rendered on the node's popup on the browser. Default `["name", "dist", "support", "hyperlink", "tooltip"]`
 host | host used to run ETE server. Default 127.0.0.1
 port | port used to run ETE server. Default 5000
 
@@ -140,12 +140,14 @@ aligned panel header and footer respectively.
  def set_tree_style(self, tree, tree_style):
      super().set_tree_style(tree, tree_style)
 
-      scale = ScaleFace(width=self.width, scale_range=self.size_range, 
+      scale = ScaleFace(width=500, 
+              scale_range=(0, 1), 
               formatter='%.2f',
-              padding_x=self.padding_x, padding_y=2)
-      text = TextFace(self.name, max_fsize=11, padding_x=self.padding_x)
-      tree_style.aligned_panel_header.add_face(scale, column=self.column)
-      tree_style.aligned_panel_header.add_face(text, column=self.column)
+              padding_x=2, padding_y=2)
+      text = TextFace("Title", max_fsize=11, padding_x=2)
+      
+      tree_style.aligned_panel_footer.add_face(scale, column=3)
+      tree_style.aligned_panel_header.add_face(text, column=3)
 ```
 
 
@@ -196,6 +198,9 @@ from ete4.smartview import TreeLayout
 t = Tree( "((A:1,B:1),C:1)1:.5;" )
 
 class LayoutCustom(TreeLayout):
+   def __init__(self, *args, **kwargs):
+      super().__init__(name="Custom Layout", *args, **kwargs) # self.name attribute must be set
+      
    def set_node_style(self, node):
       nstyle = node.sm_style        
       if not node.up:
@@ -207,9 +212,8 @@ class LayoutCustom(TreeLayout):
          nstyle["fgcolor"] = "#4d79ff" # blue
          nstyle["size"] = 5
     
-    
 
-t.explore(tree_name="example", layouts=[ LayoutCustom ])
+t.explore(tree_name="example", layouts=[ LayoutCustom ], show_branch_support=False)
 ```
 
 
@@ -239,26 +243,25 @@ a pair of TextFace faces can be created and added to the columns 0 and 1 of the 
 
 ```
 from ete4 import Tree
-from ete4.smartview import TreeStyle, TextFace
+from ete4.smartview import TextFace, TreeLayout
 
 t = Tree( "((A:1,B:1),C:1)1:.5;" )
 
-# Basic tree style
-ts = TreeStyle()
-ts.show_support = False
 
-# Add two text faces to different columns
-def layout_fn(node):
-    if node.name == "A":
-        node.add_face(TextFace("hello", padding_x=15), 
-                column=0, position="branch-bottom")
-        node.add_face(TextFace("world!"), 
-                column=1, position="branch-bottom")
+class LayoutHelloWorld(TreeLayout):
+   def __init__(self, *args, **kwargs):
+      super().__init__(name="Hello world", *args, **kwargs) # self.name attribute must be set
+      
+   def set_node_style(self, node):
+      # Add two text faces to different columns
+      if node.name == "A":
+         node.add_face(TextFace("hello", padding_x=15), 
+                column=0, position="branch_bottom")
+         node.add_face(TextFace("world!"), 
+                column=1, position="branch_bottom")
 
-layout_fn.__name__ = "Hello world"
-ts.layout_fn = layout_fn
 
-t.explore(tree_name="example", tree_style=ts)
+t.explore(tree_name="example", layouts=[ LayoutHelloWorld ], show_branch_support=False)
 ```
 
 ![hello world](https://github.com/jorgebotas/ete4-documentation/blob/master/helloworld.png)
@@ -291,8 +294,12 @@ colors = ["#78a0ff", "#83aa5a", "#ff7ea5"]
 for i, leaf in enumerate(t):
     leaf.add_prop("color", colors[i])
 
-
-def layout_fn(node):
+class LayoutFacePositions(TreeLayout):
+   def __init__(self, *args, **kwargs):
+      super().__init__(name="Face positions", *args, **kwargs) # self.name attribute must be set
+      self.aligned_faces = True # Triggers the aligned panel at self.set_tree_style
+      
+   def set_node_style(self, node):
     if not node.up: # do not style root node
         return
 
@@ -301,10 +308,9 @@ def layout_fn(node):
         if pos == "aligned":
             if node.is_leaf():
                 # Set background color to leaf
-                ns = NodeStyle()
+                ns = node.sm_style
                 ns["size"] = 0 # do not show dot
                 ns["bgcolor"] = node.props["color"]
-                node.set_style(ns)
                 # Add 2x2 matrix
                 for col in range(2):
                     node.add_face(TextFace(f'{pos}  row_0  col_{col}',
@@ -319,11 +325,7 @@ def layout_fn(node):
             node.add_face(TextFace(text, padding_x=px, padding_y=py),
                     column=0, position=pos)
 
-layout_fn.__name__ = "Face positions"
-layout_fn.contains_aligned_face = True # declare aligned Faces
-ts.layout_fn = layout_fn
-
-t.explore(tree_name="example", tree_style=ts)
+t.explore(tree_name="example", layouts=[ LayoutFacePositions ], show_branch_support=False)
 ```
 
 
@@ -355,48 +357,33 @@ Thus, we can zoom in and out the graph, collapsing nodes and dynamically display
 
 ```
 from ete4 import Tree
-from ete4.smartview import TreeStyle, TextFace
+from ete4.smartview import TreeLayout, TextFace
 
 
 t = Tree()
 t.populate(10000)
 
-
-ts = TreeStyle()
-# Remove leaf name.
-# We want to display the number of leaves
-ts.show_leaf_name = False
-
-
-def layout_fn(node):
-    if node.is_leaf():
-        # Leaves will have an arbitrary value of 1
-        node.add_face(TextFace("1"), position="branch-right", column=0)
-    else:
+class LayoutLeafNumber(TreeLayout):
+   def __init__(self, *args, **kwargs):
+      super().__init__(name="Number of leaves", *args, **kwargs) # self.name attribute must be set
+      
+   def set_node_style(self, node):
+      if not node.is_leaf():
         nleaves = len(node)
         # Display face ONLY when its children are not visible (collapsed)
         node.add_face(TextFace(str(nleaves)), position="branch-right",
                       column=1, collapsed_only=True)
 
-# Provide descriptive name (later seen in GUI)
-layout_fn.__name__ = "Number of leaves"
 
-
-# Add layout function to TreeStyle 
-# so it will be automatically applied in the GUI
-ts.layout_fn = layout_fn
-
-
-t.explore(tree_name="example", tree_style=ts)
+t.explore(tree_name="example", layouts=[ LayoutLeafNumber ], show_leaf_name=False)
 ```
 
 ![nleaves](https://github.com/jorgebotas/ete4-documentation/blob/master/nleaves.png)
 
 > **NOTE**.
-> Provide the layout function with an descriptive name, as this will be the name with which 
+> Provide the layout class with an descriptive name attribute, as this will be the name with which 
 > this layout function is later displayed in the GUI and interactively switched on and off.
-> 
-> To do so assign an appropriate `__name__` attribute to the layout function as in the example above.
+
 
 >**NOTE**.
 > When adding a faces to a collapsed node in "branch-right" position (`collapsed_only` flag set to True), the first available column is number `1`,
